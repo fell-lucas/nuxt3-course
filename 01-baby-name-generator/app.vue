@@ -43,6 +43,12 @@ const optionsArray = [
     buttons: [Length.SHORT, Length.ALL, Length.LONG],
   },
 ];
+
+const removeName = (index: number) => {
+  const filteredNames = [...selectedNames.value];
+  filteredNames.splice(index, 1);
+  selectedNames.value = filteredNames;
+};
 </script>
 
 <template>
@@ -59,33 +65,17 @@ const optionsArray = [
       <button class="primary" @click="computeSelectedNames">Find Names</button>
     </div>
     <div class="cards-container">
-      <div v-for="name in selectedNames" :key="name" class="card">
-        {{ name }}
-        <p>x</p>
-      </div>
+      <CardName
+        v-for="(name, index) in selectedNames"
+        :key="name"
+        :name="name"
+        @remove="() => removeName(index)"
+      />
     </div>
   </div>
 </template>
 
 <style scoped>
-.card p {
-  position: absolute;
-  top: -28%;
-  left: 94%;
-  cursor: pointer;
-  color: rgba(255, 255, 255, 0.5);
-}
-
-.card {
-  background-color: rgb(27, 60, 138);
-  width: 28%;
-  color: white;
-  border-radius: 1rem;
-  padding: 1rem;
-  margin-right: 0.5rem;
-  margin-bottom: 1rem;
-  position: relative;
-}
 .cards-container {
   display: flex;
   margin-top: 3rem;
