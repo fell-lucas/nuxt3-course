@@ -1,33 +1,32 @@
 <script setup lang="ts">
-
 enum Gender {
   GIRL,
   BOY,
-  UNISEX
+  UNISEX,
 }
 
 enum Popularity {
   UNIQUE,
-  TRENDY
+  TRENDY,
 }
 
 enum Length {
   SHORT,
   ALL,
-  LONG
+  LONG,
 }
 
 interface OptionsState {
-  gender: Gender,
-  popularity: Popularity,
-  length: Length
+  gender: Gender;
+  popularity: Popularity;
+  length: Length;
 }
 
 const options: OptionsState = reactive({
   gender: Gender.GIRL,
   popularity: Popularity.TRENDY,
   length: Length.ALL,
-})
+});
 </script>
 
 <template>
@@ -38,24 +37,64 @@ const options: OptionsState = reactive({
       <div class="option-container">
         <h4>1) Choose a gender</h4>
         <div class="option-buttons">
-          <button class="option option-left" :class="options.gender === Gender.BOY && 'option-active'">Boy</button>
-          <button class="option" :class="options.gender === Gender.UNISEX && 'option-active'">Unisex</button>
-          <button class="option option-right" :class="options.gender === Gender.GIRL && 'option-active'">Girl</button>
+          <button
+            class="option option-left"
+            :class="options.gender === Gender.BOY && 'option-active'"
+          >
+            Boy
+          </button>
+          <button
+            class="option"
+            :class="options.gender === Gender.UNISEX && 'option-active'"
+          >
+            Unisex
+          </button>
+          <button
+            class="option option-right"
+            :class="options.gender === Gender.GIRL && 'option-active'"
+          >
+            Girl
+          </button>
         </div>
       </div>
       <div class="option-container">
         <h4>2) Choose a popularity</h4>
         <div class="option-buttons">
-          <button class="option option-left" :class="options.popularity === Popularity.TRENDY && 'option-active'">Trendy</button>
-          <button class="option option-right" :class="options.popularity === Popularity.UNIQUE && 'option-active'">Unique</button>
+          <button
+            class="option option-left"
+            :class="options.popularity === Popularity.TRENDY && 'option-active'"
+          >
+            Trendy
+          </button>
+          <button
+            class="option option-right"
+            :class="options.popularity === Popularity.UNIQUE && 'option-active'"
+          >
+            Unique
+          </button>
         </div>
       </div>
       <div class="option-container">
         <h4>3) Choose a length</h4>
         <div class="option-buttons">
-          <button class="option option-left" :class="options.length === Length.SHORT && 'option-active'">Short</button>
-          <button class="option" :class="options.length === Length.LONG && 'option-active'">Long</button>
-          <button class="option option-right" :class="options.length === Length.ALL && 'option-active'">All</button>
+          <button
+            class="option option-left"
+            :class="options.length === Length.SHORT && 'option-active'"
+          >
+            Short
+          </button>
+          <button
+            class="option"
+            :class="options.length === Length.LONG && 'option-active'"
+          >
+            Long
+          </button>
+          <button
+            class="option option-right"
+            :class="options.length === Length.ALL && 'option-active'"
+          >
+            All
+          </button>
         </div>
       </div>
     </div>
@@ -65,7 +104,7 @@ const options: OptionsState = reactive({
 <style scoped>
 .container {
   font-family: Arial, Helvetica, sans-serif;
-  color: rgb(27,60, 138);
+  color: rgb(27, 60, 138);
   max-width: 50rem;
   margin: 0 auto;
   text-align: center;
