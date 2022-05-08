@@ -1,39 +1,89 @@
+<script setup lang="ts">
+import { Gender, Popularity, Length, names } from "./data";
+
+interface OptionsState {
+  gender: Gender;
+  popularity: Popularity;
+  length: Length;
+}
+
+const options: OptionsState = reactive({
+  gender: Gender.GIRL,
+  popularity: Popularity.TRENDY,
+  length: Length.ALL,
+});
+
+const selectedNames = ref<string[]>([]);
+
+const computeSelectedNames = () => {
+  const filteredNames = names
+    .filter((name) => name.gender === options.gender)
+    .filter((name) => name.popularity === options.popularity)
+    .filter((name) => {
+      if (options.length === Length.ALL) return true;
+      else return name.length === options.length;
+    });
+  selectedNames.value = filteredNames.map((name) => name.name);
+};
+
+const optionsArray = [
+  {
+    title: "1) Choose a gender",
+    category: "gender",
+    buttons: [Gender.BOY, Gender.GIRL, Gender.UNISEX],
+  },
+  {
+    title: "2) Choose a popularity",
+    category: "popularity",
+    buttons: [Popularity.TRENDY, Popularity.UNIQUE],
+  },
+  {
+    title: "3) Choose a length",
+    category: "length",
+    buttons: [Length.SHORT, Length.ALL, Length.LONG],
+  },
+];
+
+const removeName = (index: number) => {
+  const filteredNames = [...selectedNames.value];
+  filteredNames.splice(index, 1);
+  selectedNames.value = filteredNames;
+};
+</script>
+
 <template>
   <div class="container">
     <h1>Baby Name Generator</h1>
     <p>Choose your options and click "Find Names"</p>
     <div class="options-container">
-      <div class="option-container">
-        <h4>1) Choose a gender</h4>
-        <div class="option-buttons">
-          <button class="option option-left">Boy</button>
-          <button class="option">Unisex</button>
-          <button class="option option-right">Girl</button>
-        </div>
-      </div>
-      <div class="option-container">
-        <h4>2) Choose a popularity</h4>
-        <div class="option-buttons">
-          <button class="option option-left">Trendy</button>
-          <button class="option option-right">Unique</button>
-        </div>
-      </div>
-      <div class="option-container">
-        <h4>3) Choose a length</h4>
-        <div class="option-buttons">
-          <button class="option option-left">Short</button>
-          <button class="option">Long</button>
-          <button class="option option-right">All</button>
-        </div>
-      </div>
+      <Option
+        v-for="option in optionsArray"
+        :key="option.title"
+        :option="option"
+        :state="options"
+      />
+      <button class="primary" @click="computeSelectedNames">Find Names</button>
+    </div>
+    <div class="cards-container">
+      <CardName
+        v-for="(name, index) in selectedNames"
+        :key="name"
+        :name="name"
+        @remove="() => removeName(index)"
+      />
     </div>
   </div>
 </template>
 
 <style scoped>
+.cards-container {
+  display: flex;
+  margin-top: 3rem;
+  flex-wrap: wrap;
+}
 .container {
   font-family: Arial, Helvetica, sans-serif;
-  color: rgb(27,60, 138);
+  color: rgb(27, 60, 138);
   max-width: 50rem;
   margin: 0 auto;
   text-align: center;
@@ -53,27 +103,14 @@ h1 {
   position: relative;
 }
 
-.option-container {
-  margin-bottom: 2rem;
-}
-
-.option {
-  background-color: white;
-  outline: 0.15rem solid rgb(249, 87, 89);
+.primary {
+  background-color: rgb(249, 87, 89);
+  color: white;
+  border-radius: 6.5rem;
   border: none;
-  padding: 0.75rem;
-  width: 12rem;
+  padding: 0.75rem 4rem;
   font-size: 1rem;
-  color: rgb(27, 60, 138);
+  margin-top: 1rem;
   cursor: pointer;
-  font-weight: 200;
-}
-
-.option-left {
-  border-radius: 1rem 0 0 1rem;
-}
-
-.option-right {
-  border-radius: 0 1rem 1rem 0;
 }
 </style>
